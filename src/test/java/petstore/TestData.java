@@ -16,25 +16,25 @@ public class TestData {
     static String petJson;
     static String updatePetJson;
 
-    static Stream<Arguments> addNewPetTestData() throws JsonProcessingException {
+    static Stream<Arguments> addNewPetTestData() {
         return Stream.of(Arguments.of(petJson));
     }
 
-    static Stream<Arguments> findPetByIdTestData() throws JsonProcessingException {
+    static Stream<Arguments> findPetByIdTestData() {
         return Stream.of(Arguments.of(petJson));
     }
 
-    static Stream<Arguments> updatePartialPetTestData() throws JsonProcessingException {
+    static Stream<Arguments> updatePartialPetTestData() {
         String updatedName = "Kensey";
         String updatedStatus = "sold";
         return Stream.of(Arguments.of(petJson, updatedName, updatedStatus));
     }
 
-    static Stream<Arguments> updateFullPetTestData() throws JsonProcessingException {
+    static Stream<Arguments> updateFullPetTestData() {
         return Stream.of(Arguments.of(petJson, updatePetJson));
     }
 
-    static Stream<Arguments> deletePetByIdTestData() throws JsonProcessingException {
+    static Stream<Arguments> deletePetByIdTestData() {
         return Stream.of(Arguments.of(petJson));
     }
 
