@@ -14,7 +14,7 @@ public class PetService {
     public static final String PET_STATUS = "/pet/findByStatus";
     public static final String NEW_PET = "/pet";
 
-    private boolean checkIfPetExistById(long petId) {
+    private boolean checkPetIfExistById(long petId) {
         Response response = given()
                 .spec(requestSpec())
                 .pathParam("petId", petId)
@@ -29,7 +29,6 @@ public class PetService {
 
     @Step("Предоставление питомца по id = {id}")
     public PetService findPetById(long petId) {
-        try {
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
@@ -38,15 +37,11 @@ public class PetService {
                     .then()
                     .spec(responseSpec());
             return this;
-        } catch (AssertionError assertionError) {
-            throw new RuntimeException("Не удалось найти питомца по заданному id = " + petId);
-        }
     }
 
     @Step("Удаление питомца по id = {petId}")
     public void deletePetById(long petId) {
-        if (checkIfPetExistById(petId)) {
-            try {
+        if (checkPetIfExistById(petId)) {
                 given()
                         .spec(requestSpec())
                         .pathParam("petId", petId)
@@ -54,71 +49,55 @@ public class PetService {
                         .delete(PET_ID)
                         .then()
                         .spec(responseSpec());
-            } catch (AssertionError assertionError) {
-                throw new RuntimeException("Не удалось удалить питомца по заданному id = " + petId);
-            }
         }
     }
 
     @Step("Предоставление всех питомцев со статусом = {status}")
     public PetService findPetByStatus(String status) {
-        try {
             given()
                     .spec(requestSpec())
-                    .param("status", status)
+                    .queryParam("status", status)
                     .when()
                     .get(PET_STATUS)
                     .then()
                     .spec(responseSpec());
             return this;
-        } catch (AssertionError assertionError) {
-            throw new RuntimeException("Не удалось найти питомцев со статусом = " + status);
-        }
     }
 
     @Step("Добавление нового питомца")
     public PetService addNewPet(long id, String petJson) {
-        if (!checkIfPetExistById(id)) {
-            try {
-                given()
-                        .spec(requestSpec())
-                        .contentType(JSON)
-                        .body(petJson)
-                        .when()
-                        .post(NEW_PET)
-                        .then()
-                        .spec(responseSpec());
-                return this;
-            } catch (AssertionError assertionError) {
-                throw new RuntimeException("Не удалось добавить питомца");
-            }
-        } else {
+        if (checkPetIfExistById(id)) {
             throw new RuntimeException("Питомец с id = " + id + " уже существует");
+        } else {
+        given()
+                .spec(requestSpec())
+                .contentType(JSON)
+                .body(petJson)
+                .when()
+                .post(NEW_PET)
+                .then()
+                .spec(responseSpec());
+        return this;
         }
     }
 
     @Step("Изменение имени на {name} и статуса питомца на {status} через id = {petId}")
     public PetService partialUpdatePet(long petId, String name, String status) {
-        try {
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
-                    .param("petId", petId)
-                    .param("name", name)
-                    .param("status", status)
+                    .queryParam("name", name)
+                    .queryParam("status", status)
                     .when()
                     .post(PET_ID)
                     .then()
                     .spec(responseSpec());
             return this;
-        } catch (AssertionError assertionError) {
-            throw new RuntimeException("Не удалось обновить имя и статус питомца");
-        }
     }
 
     @Step("Полное изменение данных о питомце")
     public PetService fullUpdatePet(String petJson) {
-        try {
+
             given()
                     .spec(requestSpec())
                     .contentType(JSON)
@@ -128,14 +107,10 @@ public class PetService {
                     .then()
                     .spec(responseSpec());
             return this;
-        } catch (AssertionError assertionError) {
-            throw new RuntimeException("Не удалось обновить данные о питомце");
-        }
     }
 
     @Step("Проверка отсутствия данных о питомце с id = {petId} по запросу")
     public PetService checkNoDataAboutPet(long petId) {
-        try {
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
@@ -145,8 +120,5 @@ public class PetService {
                     .log().status()
                     .statusCode(404);
             return this;
-        } catch (AssertionError assertionError) {
-            throw new RuntimeException("Питомец с заданным id = " + petId + " не был удален");
-        }
     }
 }
