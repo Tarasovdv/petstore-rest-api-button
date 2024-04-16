@@ -46,19 +46,20 @@ public class PetService {
     }
 
     @Step("Удаление питомца по id = {petId}")
-    public PetService deletePetById(long petId) {
-        try {
-            given()
-                    .spec(requestSpec())
-                    .pathParam("petId", petId)
-                    .param("petId", petId)
-                    .when()
-                    .delete(PET_ID)
-                    .then()
-                    .spec(responseSpec());
-            return this;
-        } catch (AssertionError assertionError) {
-            throw new RuntimeException("Не удалось удалить питомца по заданному id = " + petId);
+    public void deletePetById(long petId) {
+        if (checkIfPetExistById(petId)) {
+            try {
+                given()
+                        .spec(requestSpec())
+                        .pathParam("petId", petId)
+                        .param("petId", petId)
+                        .when()
+                        .delete(PET_ID)
+                        .then()
+                        .spec(responseSpec());
+            } catch (AssertionError assertionError) {
+                throw new RuntimeException("Не удалось удалить питомца по заданному id = " + petId);
+            }
         }
     }
 

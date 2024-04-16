@@ -8,9 +8,10 @@ import io.restassured.specification.ResponseSpecification;
 import ru.buttonone.petstore.utils.ConfigProp;
 
 public class Spec {
+    private static final String BASE_URI = new ConfigProp().getProperty("base-url");
     public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
-                .setBaseUri(new ConfigProp().getProperty("base-url"))
+                .setBaseUri(BASE_URI)
                 .log(LogDetail.METHOD)
                 .log(LogDetail.BODY)
                 .build();

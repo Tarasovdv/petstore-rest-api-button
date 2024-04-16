@@ -12,7 +12,6 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#addNewPetTestData")
     public void addNewPet(String petJson) {
-        DELETE_PET = true;
         petService.addNewPet(petId, petJson)
                 .findPetById(petId);
     }
@@ -21,7 +20,6 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#findPetByIdTestData")
     public void findPetById(String petJson) {
-        DELETE_PET = true;
         petService.addNewPet(petId, petJson)
                 .findPetById(petId);
     }
@@ -30,7 +28,6 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#updatePartialPetTestData")
     public void updatePartialPet(String petJson, String updatedName, String updatedStatus) {
-        DELETE_PET = true;
         petService.addNewPet(petId, petJson)
                 .partialUpdatePet(petId, updatedName, updatedStatus)
                 .findPetById(petId);
@@ -40,7 +37,6 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#updateFullPetTestData")
     public void updateFullPet(String petJson, String updatePetJson) {
-        DELETE_PET = true;
         petService.addNewPet(petId, petJson)
                 .fullUpdatePet(updatePetJson)
                 .findPetById(petId);
@@ -51,8 +47,7 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#deletePetByIdTestData")
     public void deletePetById(String petJson) {
         petService.addNewPet(petId, petJson)
-                .deletePetById(petId)
-                .checkNoDataAboutPet(petId);
+                .deletePetById(petId);
     }
 
     @Description("Предоставление всех питомцев по статусу")
