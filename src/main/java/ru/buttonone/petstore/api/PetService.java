@@ -18,7 +18,6 @@ public class PetService {
         Response response = given()
                 .spec(requestSpec())
                 .pathParam("petId", petId)
-                .param("petId", petId)
                 .when()
                 .get(PET_ID);
         response
@@ -34,7 +33,6 @@ public class PetService {
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
-                    .param("petId", petId)
                     .when()
                     .get(PET_ID)
                     .then()
@@ -52,7 +50,6 @@ public class PetService {
                 given()
                         .spec(requestSpec())
                         .pathParam("petId", petId)
-                        .param("petId", petId)
                         .when()
                         .delete(PET_ID)
                         .then()
@@ -142,7 +139,6 @@ public class PetService {
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
-                    .param("petId", petId)
                     .when()
                     .get(PET_ID)
                     .then()
