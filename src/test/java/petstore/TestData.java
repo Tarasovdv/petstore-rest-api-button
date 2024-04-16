@@ -7,77 +7,96 @@ import ru.buttonone.petstore.data.Category;
 import ru.buttonone.petstore.data.Pet;
 import ru.buttonone.petstore.data.Tag;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class TestData {
-    static int petID = 710710710;
-    static String petJson;
-    static String updatePetJson;
+    public static long petId = 710710710;
+    private static final String PET_JSON;
+    private static final String UPDATE_PET_JSON;
 
-    static Stream<Arguments> addNewPetTestData() {
-        return Stream.of(Arguments.of(petJson));
+    static {
+        try {
+            PET_JSON = petData(petId);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    static Stream<Arguments> findPetByIdTestData() {
-        return Stream.of(Arguments.of(petJson));
+    static {
+        try {
+            UPDATE_PET_JSON = updatePetData(petId);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    static Stream<Arguments> updatePartialPetTestData() {
-        String updatedName = "Kensey";
-        String updatedStatus = "sold";
-        return Stream.of(Arguments.of(petJson, updatedName, updatedStatus));
+    protected static Stream<Arguments> addNewPetTestData() {
+        return Stream.of(Arguments.of(PET_JSON));
     }
 
-    static Stream<Arguments> updateFullPetTestData() {
-        return Stream.of(Arguments.of(petJson, updatePetJson));
+    protected static Stream<Arguments> findPetByIdTestData() {
+        return Stream.of(Arguments.of(PET_JSON));
     }
 
-    static Stream<Arguments> deletePetByIdTestData() {
-        return Stream.of(Arguments.of(petJson));
+    protected static Stream<Arguments> updatePartialPetTestData() {
+        return Stream.of(Arguments.of(PET_JSON, "Kensey", "sold"));
     }
 
-    static Stream<Arguments> findPetByStatusTestData() {
-        String status = "sold";
-        return Stream.of(Arguments.of(status));
+    protected static Stream<Arguments> updateFullPetTestData() {
+        return Stream.of(Arguments.of(PET_JSON, UPDATE_PET_JSON));
     }
 
-    private static String petData(int petId) throws JsonProcessingException {
-        List<String> photoUrls = new ArrayList<>(List.of("photoUrl"));
-        List<Tag> tags = List.of(new Tag(0, "tag"));
-        Category category = new Category(0, "category_name");
-        Pet pet = new Pet(petId, category, "Mikasa", photoUrls, tags, "available");
-        return objectIntoJson(pet);
+    protected static Stream<Arguments> deletePetByIdTestData() {
+        return Stream.of(Arguments.of(PET_JSON));
     }
 
-    private static String updatePetData(int petId) throws JsonProcessingException {
-        List<String> photoUrls = new ArrayList<>(List.of("photoUrl"));
-        List<Tag> tags = List.of(new Tag(0, "tags"));
-        Category category = new Category(0, "category_name");
-        Pet pet = new Pet(petId, category, "Luna", photoUrls, tags, "sold");
-        return objectIntoJson(pet);
+    protected static Stream<Arguments> findPetByStatusTestData() {
+        return Stream.of(Arguments.of("sold"));
+    }
+
+    private static String petData(long petId) throws JsonProcessingException {
+        return objectIntoJson(createPetData(petId
+                , 0
+                , "category_name"
+                , "Mikasa"
+                , "photoUrl"
+                , 0
+                , "tags"
+                , "available"));
+    }
+
+    private static String updatePetData(long petId) throws JsonProcessingException {
+        return objectIntoJson(createPetData(petId
+                , 0
+                , "category_name"
+                , "Luna"
+                , "photoUrl"
+                , 0
+                , "tags"
+                , "sold"));
+    }
+
+    private static Pet createPetData(long petId
+            , long categoryId
+            , String categoryName
+            , String petName
+            , String photoUrl
+            , long tagId
+            , String tagName
+            , String status) {
+
+        return new Pet(petId
+                , new Category(categoryId, categoryName)
+                , petName
+                , List.of(photoUrl)
+                , List.of(new Tag(tagId, tagName))
+                , status);
     }
 
     private static String objectIntoJson(Object object) throws JsonProcessingException {
         return new ObjectMapper()
                 .writerWithDefaultPrettyPrinter()
                 .writeValueAsString(object);
-    }
-
-    static {
-        try {
-            petJson = petData(petID);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    static {
-        try {
-            updatePetJson = updatePetData(petID);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

@@ -3,18 +3,18 @@ package petstore;
 import io.qameta.allure.Description;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import ru.buttonone.petstore.api.Pet;
+import ru.buttonone.petstore.api.PetService;
 
 public class PetStoreTest extends BaseTest {
-    private final Pet pet = new Pet();
+    private final PetService petService = new PetService();
 
     @Description("Добавление нового питомца")
     @ParameterizedTest
     @MethodSource("petstore.TestData#addNewPetTestData")
     public void addNewPet(String petJson) {
         DELETE_PET = true;
-        pet.addNewPet(petID, petJson)
-                .findPetById(petID);
+        petService.addNewPet(petId, petJson)
+                .findPetById(petId);
     }
 
     @Description("Предоставление питомца по id")
@@ -22,8 +22,8 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#findPetByIdTestData")
     public void findPetById(String petJson) {
         DELETE_PET = true;
-        pet.addNewPet(petID, petJson)
-                .findPetById(petID);
+        petService.addNewPet(petId, petJson)
+                .findPetById(petId);
     }
 
     @Description("Изменение имени и статуса питомца")
@@ -31,9 +31,9 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#updatePartialPetTestData")
     public void updatePartialPet(String petJson, String updatedName, String updatedStatus) {
         DELETE_PET = true;
-        pet.addNewPet(petID, petJson)
-                .partialUpdatePet(petID, updatedName, updatedStatus)
-                .findPetById(petID);
+        petService.addNewPet(petId, petJson)
+                .partialUpdatePet(petId, updatedName, updatedStatus)
+                .findPetById(petId);
     }
 
     @Description("Изменение данных о питомце")
@@ -41,24 +41,24 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#updateFullPetTestData")
     public void updateFullPet(String petJson, String updatePetJson) {
         DELETE_PET = true;
-        pet.addNewPet(petID, petJson)
+        petService.addNewPet(petId, petJson)
                 .fullUpdatePet(updatePetJson)
-                .findPetById(petID);
+                .findPetById(petId);
     }
 
     @Description("Удаление питомца по id")
     @ParameterizedTest
     @MethodSource("petstore.TestData#deletePetByIdTestData")
     public void deletePetById(String petJson) {
-        pet.addNewPet(petID, petJson)
-                .deletePetById(petID)
-                .checkNoDataAboutPet(petID);
+        petService.addNewPet(petId, petJson)
+                .deletePetById(petId)
+                .checkNoDataAboutPet(petId);
     }
 
     @Description("Предоставление всех питомцев по статусу")
     @ParameterizedTest
     @MethodSource("petstore.TestData#findPetByStatusTestData")
     public void findPetsByStatus(String status) {
-        pet.findPetByStatus(status);
+        petService.findPetByStatus(status);
     }
 }

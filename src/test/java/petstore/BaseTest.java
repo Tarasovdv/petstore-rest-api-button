@@ -4,11 +4,11 @@ import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import ru.buttonone.petstore.api.Pet;
+import ru.buttonone.petstore.api.PetService;
 
 public class BaseTest extends TestData{
     static boolean DELETE_PET;
-    private final Pet pet = new Pet();
+    private final PetService petService = new PetService();
 
     @BeforeEach
     public void setFilter(){
@@ -18,7 +18,7 @@ public class BaseTest extends TestData{
     @AfterEach
     public void clearPetTestData() {
         if (DELETE_PET) {
-            pet.deletePetById(petID);
+            petService.deletePetById(petId);
             DELETE_PET = false;
         }
     }

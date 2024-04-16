@@ -2,18 +2,19 @@ package ru.buttonone.petstore.api;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import ru.buttonone.petstore.spec.Spec;
+
+import static ru.buttonone.petstore.spec.Spec.*;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 
-public class Pet extends Spec {
+public class PetService {
 
     public static final String PET_ID = "/pet/{petId}";
     public static final String PET_STATUS = "/pet/findByStatus";
     public static final String NEW_PET = "/pet";
 
-    private boolean checkIfPetExistById(int petId) {
+    private boolean checkIfPetExistById(long petId) {
         Response response = given()
                 .spec(requestSpec())
                 .pathParam("petId", petId)
@@ -28,7 +29,7 @@ public class Pet extends Spec {
     }
 
     @Step("Предоставление питомца по id = {id}")
-    public Pet findPetById(int petId) {
+    public PetService findPetById(long petId) {
         try {
             given()
                     .spec(requestSpec())
@@ -45,7 +46,7 @@ public class Pet extends Spec {
     }
 
     @Step("Удаление питомца по id = {petId}")
-    public Pet deletePetById(int petId) {
+    public PetService deletePetById(long petId) {
         try {
             given()
                     .spec(requestSpec())
@@ -62,7 +63,7 @@ public class Pet extends Spec {
     }
 
     @Step("Предоставление всех питомцев со статусом = {status}")
-    public Pet findPetByStatus(String status) {
+    public PetService findPetByStatus(String status) {
         try {
             given()
                     .spec(requestSpec())
@@ -78,7 +79,7 @@ public class Pet extends Spec {
     }
 
     @Step("Добавление нового питомца")
-    public Pet addNewPet(int id, String petJson) {
+    public PetService addNewPet(long id, String petJson) {
         if (!checkIfPetExistById(id)) {
             try {
                 given()
@@ -99,7 +100,7 @@ public class Pet extends Spec {
     }
 
     @Step("Изменение имени на {name} и статуса питомца на {status} через id = {petId}")
-    public Pet partialUpdatePet(int petId, String name, String status) {
+    public PetService partialUpdatePet(long petId, String name, String status) {
         try {
             given()
                     .spec(requestSpec())
@@ -118,7 +119,7 @@ public class Pet extends Spec {
     }
 
     @Step("Полное изменение данных о питомце")
-    public Pet fullUpdatePet(String petJson) {
+    public PetService fullUpdatePet(String petJson) {
         try {
             given()
                     .spec(requestSpec())
@@ -135,7 +136,7 @@ public class Pet extends Spec {
     }
 
     @Step("Проверка отсутствия данных о питомце с id = {petId} по запросу")
-    public Pet checkNoDataAboutPet(int petId) {
+    public PetService checkNoDataAboutPet(long petId) {
         try {
             given()
                     .spec(requestSpec())
