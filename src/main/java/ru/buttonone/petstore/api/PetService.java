@@ -3,10 +3,10 @@ package ru.buttonone.petstore.api;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
-import static ru.buttonone.petstore.spec.Spec.*;
-
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static ru.buttonone.petstore.spec.Spec.requestSpec;
+import static ru.buttonone.petstore.spec.Spec.responseSpec;
 
 public class PetService {
 
