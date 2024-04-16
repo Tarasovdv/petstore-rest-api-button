@@ -6,8 +6,7 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static ru.buttonone.petstore.api.Endpoint.*;
-import static ru.buttonone.petstore.spec.Spec.requestSpec;
-import static ru.buttonone.petstore.spec.Spec.responseSpec;
+import static ru.buttonone.petstore.spec.Spec.*;
 
 public class PetService {
 
