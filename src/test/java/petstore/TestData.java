@@ -51,10 +51,6 @@ public class TestData {
         return Stream.of(Arguments.of(PET_JSON));
     }
 
-    protected static Stream<Arguments> findPetByStatusTestData() {
-        return Stream.of(Arguments.of("sold"));
-    }
-
     private static String petData(long petId) throws JsonProcessingException {
         return objectIntoJson(createPetData(petId
                 , 0
