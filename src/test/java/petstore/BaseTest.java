@@ -3,14 +3,20 @@ package petstore;
 import io.qameta.allure.Description;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.buttonone.petstore.api.PetService;
 
+import static io.restassured.RestAssured.given;
 import static petstore.TestData.PET_ID;
+import static ru.buttonone.petstore.api.Endpoint.PET_BY_ID;
+import static ru.buttonone.petstore.spec.Spec.requestSpec;
+import static ru.buttonone.petstore.spec.Spec.responseSpec;
 
+@Log4j2
 public class BaseTest {
     private final PetService petService = new PetService();
 
@@ -24,6 +30,21 @@ public class BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#deletePetByIdTestData")
     public void cleanData() {
-        petService.deletePetById(PET_ID);
+        cleanPetData(PET_ID);
+    }
+
+    private void cleanPetData(long petId) {
+        log.info("CLEAN_PET_DATA by ID = {}", petId);
+
+        if (petService.checkPetExistById(petId)) {
+            given()
+                    .spec(requestSpec())
+                    .pathParam("petId", petId)
+                    .when()
+                    .delete(PET_BY_ID)
+                    .then()
+                    .spec(responseSpec());
+            log.info("CLEAN_PET_DATA by ID = {} -> SUCCESS", petId);
+        }
     }
 }

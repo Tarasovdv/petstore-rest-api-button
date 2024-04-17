@@ -21,6 +21,7 @@
         <lombok.version>1.18.32</lombok.version>
         <jackson.datatype.version>2.17.0</jackson.datatype.version>
         <allure.rest.assured.version>2.27.0</allure.rest.assured.version>
+        <log4j.version>2.20.0</log4j.version>
     </properties>
 
     <dependencyManagement>
@@ -34,21 +35,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.junit.jupiter</groupId>-->
-<!--            <artifactId>junit-jupiter</artifactId>-->
-<!--            <version>RELEASE</version>-->
-<!--&lt;!&ndash;            <scope>test</scope>&ndash;&gt;-->
-<!--        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -86,7 +80,13 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-rest-assured</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -114,5 +114,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

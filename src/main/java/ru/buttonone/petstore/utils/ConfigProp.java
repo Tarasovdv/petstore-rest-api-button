@@ -8,7 +8,7 @@ public class ConfigProp {
     public String getProperty(String key) {
         Properties properties;
         try {
-            FileInputStream fileInputStream = new FileInputStream("src/main/resources/config.prop");
+            FileInputStream fileInputStream = new FileInputStream("src/main/resources/config.properties");
             properties = new Properties();
             properties.load(fileInputStream);
         } catch (IOException e) {
