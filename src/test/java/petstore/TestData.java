@@ -38,43 +38,20 @@ public class TestData {
 
     @SneakyThrows
     private static String petData(long petId) {
-        return objectIntoJson(createPetData(petId
-                , 0
-                , "category_name"
-                , "Mikasa"
-                , "photoUrl"
-                , 0
-                , "tags"
-                , "available"));
+        return objectIntoJson(createPetData(petId, 0, "category_name", "Mikasa"
+                , "photoUrl", 0, "tags", "available"));
     }
 
     @SneakyThrows
     private static String updatePetData(long petId) {
-        return objectIntoJson(createPetData(petId
-                , 0
-                , "category_name"
-                , "Luna"
-                , "photoUrl"
-                , 0
-                , "tags"
-                , "sold"));
+        return objectIntoJson(createPetData(petId, 0, "category_name", "Luna"
+                , "photoUrl", 0, "tags", "sold"));
     }
 
-    private static Pet createPetData(long petId
-            , long categoryId
-            , String categoryName
-            , String petName
-            , String photoUrl
-            , long tagId
-            , String tagName
-            , String status) {
-
-        return new Pet(petId
-                , new Category(categoryId, categoryName)
-                , petName
-                , List.of(photoUrl)
-                , List.of(new Tag(tagId, tagName))
-                , status);
+    private static Pet createPetData(long petId, long categoryId, String categoryName, String petName, String photoUrl
+            , long tagId, String tagName, String status) {
+        return new Pet(petId, new Category(categoryId, categoryName), petName, List.of(photoUrl)
+                , List.of(new Tag(tagId, tagName)), status);
     }
 
     private static String objectIntoJson(Object object) throws JsonProcessingException {
