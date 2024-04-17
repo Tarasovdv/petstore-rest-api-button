@@ -1,6 +1,5 @@
 package ru.buttonone.petstore.spec;
 
-import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -10,6 +9,7 @@ import ru.buttonone.petstore.utils.ConfigProp;
 
 public class Spec {
     private static final String BASE_URI = new ConfigProp().getProperty("base-url");
+
     public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
                 .setBaseUri(BASE_URI)

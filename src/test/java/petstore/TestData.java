@@ -2,6 +2,7 @@ package petstore;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.junit.jupiter.params.provider.Arguments;
 import ru.buttonone.petstore.data.Category;
 import ru.buttonone.petstore.data.Pet;
@@ -11,25 +12,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class TestData {
-    public static long petId = 710710710;
-    private static final String PET_JSON;
-    private static final String UPDATE_PET_JSON;
-
-    static {
-        try {
-            PET_JSON = petData(petId);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    static {
-        try {
-            UPDATE_PET_JSON = updatePetData(petId);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public static final long PET_ID = 710710710;
+    private static final String PET_JSON = petData(PET_ID);
+    private static final String UPDATE_PET_JSON = updatePetData(PET_ID);
 
     protected static Stream<Arguments> addNewPetTestData() {
         return Stream.of(Arguments.of(PET_JSON));
@@ -51,7 +36,8 @@ public class TestData {
         return Stream.of(Arguments.of(PET_JSON));
     }
 
-    private static String petData(long petId) throws JsonProcessingException {
+    @SneakyThrows
+    private static String petData(long petId) {
         return objectIntoJson(createPetData(petId
                 , 0
                 , "category_name"
@@ -62,7 +48,8 @@ public class TestData {
                 , "available"));
     }
 
-    private static String updatePetData(long petId) throws JsonProcessingException {
+    @SneakyThrows
+    private static String updatePetData(long petId) {
         return objectIntoJson(createPetData(petId
                 , 0
                 , "category_name"

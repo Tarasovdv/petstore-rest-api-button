@@ -10,7 +10,7 @@ import static ru.buttonone.petstore.spec.Spec.*;
 
 public class PetService {
 
-    private boolean checkPetIfExistById(long petId) {
+    private boolean checkPetExistById(long petId) {
         Response response = given()
                 .spec(requestSpec())
                 .pathParam("petId", petId)
@@ -37,7 +37,7 @@ public class PetService {
 
     @Step("Удаление питомца по id = {petId}")
     public void deletePetById(long petId) {
-        if (checkPetIfExistById(petId)) {
+        if (checkPetExistById(petId)) {
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
@@ -62,19 +62,16 @@ public class PetService {
 
     @Step("Добавление нового питомца")
     public PetService addNewPet(long id, String petJson) {
-        if (checkPetIfExistById(id)) {
-            throw new RuntimeException("Питомец с id = " + id + " уже существует");
-        } else {
-            given()
-                    .spec(requestSpec())
-                    .contentType(JSON)
-                    .body(petJson)
-                    .when()
-                    .post(NEW_PET)
-                    .then()
-                    .spec(responseSpec());
-            return this;
-        }
+        if (checkPetExistById(id)) throw new RuntimeException("Питомец с id = " + id + " уже существует");
+        given()
+                .spec(requestSpec())
+                .contentType(JSON)
+                .body(petJson)
+                .when()
+                .post(NEW_PET)
+                .then()
+                .spec(responseSpec());
+        return this;
     }
 
     @Step("Изменение имени на {name} и статуса питомца на {status} через id = {petId}")
@@ -93,7 +90,6 @@ public class PetService {
 
     @Step("Полное изменение данных о питомце")
     public PetService fullUpdatePet(String petJson) {
-
         given()
                 .spec(requestSpec())
                 .contentType(JSON)

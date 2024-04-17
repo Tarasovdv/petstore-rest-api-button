@@ -9,7 +9,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.buttonone.petstore.api.PetService;
 
-public class BaseTest extends TestData {
+import static petstore.TestData.PET_ID;
+
+public class BaseTest {
     private final PetService petService = new PetService();
 
     @BeforeEach
@@ -22,6 +24,6 @@ public class BaseTest extends TestData {
     @ParameterizedTest
     @MethodSource("petstore.TestData#deletePetByIdTestData")
     public void cleanData() {
-        petService.deletePetById(petId);
+        petService.deletePetById(PET_ID);
     }
 }
