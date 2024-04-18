@@ -21,6 +21,7 @@
         <lombok.version>1.18.32</lombok.version>
         <jackson.datatype.version>2.17.0</jackson.datatype.version>
         <allure.rest.assured.version>2.27.0</allure.rest.assured.version>
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
     </properties>
 
     <dependencyManagement>
@@ -39,7 +40,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.10.2</version>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
