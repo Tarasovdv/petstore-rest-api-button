@@ -14,7 +14,6 @@ public class PetService {
 
     public boolean checkPetExistById(long petId) {
         log.info("Проверка существование питомца по ID = {}", petId);
-
         Response response = given()
                 .spec(requestSpec())
                 .pathParam("petId", petId)
@@ -24,13 +23,13 @@ public class PetService {
                 .then()
                 .log()
                 .status();
+
         return response.getStatusCode() == 200;
     }
 
     @Step("Предоставление питомца по id = {id}")
     public PetService findPetById(long petId) {
         log.info("Предоставление питомца по ID = {}", petId);
-
         given()
                 .spec(requestSpec())
                 .pathParam("petId", petId)
@@ -38,13 +37,13 @@ public class PetService {
                 .get(PET_BY_ID)
                 .then()
                 .spec(responseSpec());
+
         return this;
     }
 
     @Step("Удаление питомца по id = {petId}")
     public void deletePetById(long petId) {
         log.info("Удаление питомца по ID = {}", petId);
-
         if (checkPetExistById(petId)) {
             given()
                     .spec(requestSpec())
@@ -63,7 +62,6 @@ public class PetService {
     @Step("Предоставление всех питомцев со статусом = {status}")
     public PetService findPetByStatus(String status) {
         log.info("Предоставление всех питомцев со статусом = {}", status);
-
         given()
                 .spec(requestSpec())
                 .queryParam("status", status)
@@ -71,13 +69,13 @@ public class PetService {
                 .get(PET_BY_STATUS)
                 .then()
                 .spec(responseSpec());
+
         return this;
     }
 
     @Step("Добавление нового питомца")
     public PetService addNewPet(long petId, String petJson) {
         log.info("Добавление нового питомца с ID = {}", petId);
-
         if (checkPetExistById(petId)) {
             log.error("Питомец уже существует -> ID = {}", petId);
             throw new RuntimeException("Питомец с ID = " + petId + " уже существует");
@@ -91,13 +89,13 @@ public class PetService {
                 .post(PET)
                 .then()
                 .spec(responseSpec());
+
         return this;
     }
 
     @Step("Изменение имени на {name} и статуса питомца на {status} через id = {petId}")
     public PetService partialUpdatePet(long petId, String name, String status) {
         log.info("Изменение имени на {} и статуса питомца на {} через ID = {}", name, status, petId);
-
         given()
                 .spec(requestSpec())
                 .pathParam("petId", petId)
@@ -107,6 +105,7 @@ public class PetService {
                 .post(PET_BY_ID)
                 .then()
                 .spec(responseSpec());
+
         return this;
     }
 
@@ -121,6 +120,7 @@ public class PetService {
                 .put(PET)
                 .then()
                 .spec(responseSpec());
+
         return this;
     }
 }
