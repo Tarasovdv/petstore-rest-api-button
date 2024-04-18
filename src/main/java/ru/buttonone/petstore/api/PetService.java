@@ -88,7 +88,7 @@ public class PetService {
                 .contentType(JSON)
                 .body(petJson)
                 .when()
-                .post(NEW_PET)
+                .post(PET)
                 .then()
                 .spec(responseSpec());
         return this;
@@ -118,7 +118,7 @@ public class PetService {
                 .contentType(JSON)
                 .body(petJson)
                 .when()
-                .put(NEW_PET)
+                .put(PET)
                 .then()
                 .spec(responseSpec());
         return this;
