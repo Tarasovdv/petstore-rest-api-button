@@ -2,6 +2,7 @@ package petstore;
 
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.parallel.Isolated;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -9,6 +10,7 @@ import ru.buttonone.petstore.api.PetService;
 
 import static petstore.TestData.PET_ID;
 
+@Isolated
 public class PetStoreTest extends BaseTest {
     private final PetService petService = new PetService();
 
