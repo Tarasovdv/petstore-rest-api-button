@@ -18,7 +18,7 @@ import static ru.buttonone.petstore.spec.Spec.responseSpec;
 
 @Slf4j
 public class BaseTest {
-    private final PetService petService = new PetService();
+    public final PetService petService = new PetService();
 
     @BeforeEach
     public void setFilter() {
@@ -37,6 +37,7 @@ public class BaseTest {
         log.info(String.format("CLEAN_PET_DATA by ID = {%s}", petId));
 
         if (petService.checkPetExistById(petId)) {
+            log.info(String.format("PET with ID = {%s} in DB", petId));
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
@@ -46,5 +47,6 @@ public class BaseTest {
                     .spec(responseSpec());
             log.info(String.format("CLEAN_PET_DATA by ID = {%s} -> SUCCESS", petId));
         }
+        log.info(String.format("PET with ID = {%s} not found in DB", petId));
     }
 }
