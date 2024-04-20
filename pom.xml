@@ -22,7 +22,8 @@
         <jackson.datatype.version>2.17.0</jackson.datatype.version>
         <allure.rest.assured.version>2.27.0</allure.rest.assured.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <log4j.version>2.20.0</log4j.version>
+        <slf4j.version>2.0.13</slf4j.version>
+        <logback.version>1.5.5</logback.version>
     </properties>
 
     <dependencyManagement>
@@ -82,9 +83,19 @@
             <artifactId>allure-rest-assured</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 

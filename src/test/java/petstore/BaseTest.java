@@ -3,7 +3,7 @@ package petstore;
 import io.qameta.allure.Description;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,7 +16,7 @@ import static ru.buttonone.petstore.api.Endpoint.PET_BY_ID;
 import static ru.buttonone.petstore.spec.Spec.requestSpec;
 import static ru.buttonone.petstore.spec.Spec.responseSpec;
 
-@Log4j2
+@Slf4j
 public class BaseTest {
     private final PetService petService = new PetService();
 
@@ -34,7 +34,7 @@ public class BaseTest {
     }
 
     private void cleanPetData(long petId) {
-        log.info("CLEAN_PET_DATA by ID = {}", petId);
+        log.info(String.format("CLEAN_PET_DATA by ID = {%s}", petId));
 
         if (petService.checkPetExistById(petId)) {
             given()
@@ -44,7 +44,7 @@ public class BaseTest {
                     .delete(PET_BY_ID)
                     .then()
                     .spec(responseSpec());
-            log.info("CLEAN_PET_DATA by ID = {} -> SUCCESS", petId);
+            log.info(String.format("CLEAN_PET_DATA by ID = {%s} -> SUCCESS", petId));
         }
     }
 }
