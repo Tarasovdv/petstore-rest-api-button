@@ -2,20 +2,26 @@ package ru.buttonone.petstore.api;
 
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 import lombok.extern.slf4j.Slf4j;
+import ru.buttonone.petstore.spec.Spec;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static ru.buttonone.petstore.api.Endpoint.*;
-import static ru.buttonone.petstore.spec.Spec.*;
+
+
 
 @Slf4j
 public class PetService {
+    private static final RequestSpecification REQUEST_SPEC = Spec.requestSpec();
+    private static final ResponseSpecification RESPONSE_SPEC = Spec.responseSpec();
 
     public boolean checkPetExistById(long petId) {
         log.info(String.format("Проверка существование питомца по ID = {%s}", petId));
         Response response = given()
-                .spec(requestSpec())
+                .spec(REQUEST_SPEC)
                 .pathParam("petId", petId)
                 .when()
                 .get(PET_BY_ID);
@@ -31,12 +37,12 @@ public class PetService {
     public PetService findPetById(long petId) {
         log.info(String.format("Предоставление питомца по ID = {%s}", petId));
         given()
-                .spec(requestSpec())
+                .spec(REQUEST_SPEC)
                 .pathParam("petId", petId)
                 .when()
                 .get(PET_BY_ID)
                 .then()
-                .spec(responseSpec());
+                .spec(RESPONSE_SPEC);
 
         return this;
     }
@@ -46,12 +52,12 @@ public class PetService {
         log.info(String.format("Удаление питомца по ID = {%s}", petId));
         if (checkPetExistById(petId)) {
             given()
-                    .spec(requestSpec())
+                    .spec(REQUEST_SPEC)
                     .pathParam("petId", petId)
                     .when()
                     .delete(PET_BY_ID)
                     .then()
-                    .spec(responseSpec());
+                    .spec(RESPONSE_SPEC);
 
         } else {
             log.error(String.format("Питомца НЕ существует -> ID = {%s}", petId));
@@ -63,12 +69,12 @@ public class PetService {
     public PetService findPetByStatus(String status) {
         log.info(String.format("Предоставление всех питомцев со статусом = {%s}", status));
         given()
-                .spec(requestSpec())
+                .spec(REQUEST_SPEC)
                 .queryParam("status", status)
                 .when()
                 .get(PET_BY_STATUS)
                 .then()
-                .spec(responseSpec());
+                .spec(RESPONSE_SPEC);
 
         return this;
     }
@@ -82,13 +88,13 @@ public class PetService {
         }
 
         given()
-                .spec(requestSpec())
+                .spec(REQUEST_SPEC)
                 .contentType(JSON)
                 .body(petJson)
                 .when()
                 .post(PET)
                 .then()
-                .spec(responseSpec());
+                .spec(RESPONSE_SPEC);
 
         return this;
     }
@@ -97,14 +103,14 @@ public class PetService {
     public PetService partialUpdatePet(long petId, String name, String status) {
         log.info(String.format("Изменение имени на {%s} и статуса питомца на {%s} через ID = {%s}", name, status, petId));
         given()
-                .spec(requestSpec())
+                .spec(REQUEST_SPEC)
                 .pathParam("petId", petId)
                 .queryParam("name", name)
                 .queryParam("status", status)
                 .when()
                 .post(PET_BY_ID)
                 .then()
-                .spec(responseSpec());
+                .spec(RESPONSE_SPEC);
 
         return this;
     }
@@ -113,13 +119,13 @@ public class PetService {
     public PetService fullUpdatePet(String petJson) {
         log.info("Полное изменение данных о питомце");
         given()
-                .spec(requestSpec())
+                .spec(REQUEST_SPEC)
                 .contentType(JSON)
                 .body(petJson)
                 .when()
                 .put(PET)
                 .then()
-                .spec(responseSpec());
+                .spec(RESPONSE_SPEC);
 
         return this;
     }
