@@ -1,25 +1,21 @@
 package petstore;
 
-import io.qameta.allure.Description;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import ru.buttonone.petstore.data.Category;
-import ru.buttonone.petstore.data.Tag;
+import ru.buttonone.petstore.api.PetService;
+import ru.buttonone.petstore.data.Pet;
 
-import java.util.List;
+public class PetServiceTest {
+    PetService petService = new PetService();
 
-import static petstore.TestData.PET_ID;
-
-public class PetServiceTest extends BaseTest {
-
-    @Description("Добавление нового питомца")
+    @DisplayName("Проверка параметров добавленного питомца")
     @ParameterizedTest
     @MethodSource("petstore.TestData#addNewPetTestData")
-    public void checkParamNewPet(String petJson, long expectId, Category expectCategory, String expectName,
-                          List<String> expectPhotoUrls, List<Tag> expectTags, String expectStatus) {
+    public void checkParamNewPet(Pet newPet, long petId) {
         petService
-                .addNewPet(PET_ID, petJson)
-                .checkPetParam(PET_ID, expectId, expectCategory, expectName,
-                        expectPhotoUrls, expectTags, expectStatus);
+                .addNewPet(newPet, petId)
+                .checkPetParam(newPet, petId)
+                .cleanPetData(petId);
     }
 }

@@ -1,4 +1,4 @@
-package ru.buttonone.petstore.api;
+package ru.buttonone.petstore.constans;
 
 public class Endpoint {
     public static final String PET_BY_ID = "/pet/{petId}";

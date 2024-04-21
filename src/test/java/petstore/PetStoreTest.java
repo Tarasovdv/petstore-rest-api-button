@@ -1,65 +1,69 @@
 package petstore;
 
-import io.qameta.allure.Description;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import ru.buttonone.petstore.api.PetService;
-
-import static petstore.TestData.PET_ID;
+import ru.buttonone.petstore.constans.PetStatus;
+import ru.buttonone.petstore.data.Pet;
 
 @Isolated
-public class PetStoreTest extends BaseTest {
+public class PetStoreTest {
     private final PetService petService = new PetService();
 
-    @Description("Добавление нового питомца")
+    @DisplayName("Добавление нового питомца")
     @ParameterizedTest
     @MethodSource("petstore.TestData#addNewPetTestData")
-    public void addNewPet(String petJson) {
-        petService.addNewPet(PET_ID, petJson)
-                .findPetById(PET_ID);
+    public void addNewPet(Pet newPet, long petId) {
+        petService.addNewPet(newPet, petId)
+                .findPetById(petId)
+                .cleanPetData(petId);
     }
 
-    @Description("Предоставление питомца по id")
+    @DisplayName("Предоставление питомца по id")
     @ParameterizedTest
     @MethodSource("petstore.TestData#findPetByIdTestData")
-    public void findPetById(String petJson) {
-        petService.addNewPet(PET_ID, petJson)
-                .findPetById(PET_ID);
+    public void findPetById(Pet newPet, long petId) {
+        petService.addNewPet(newPet, petId)
+                .findPetById(petId)
+                .cleanPetData(petId);
     }
 
-    @Description("Изменение имени и статуса питомца")
+    @DisplayName("Изменение имени и статуса питомца")
     @ParameterizedTest
     @MethodSource("petstore.TestData#updatePartialPetTestData")
-    public void updatePartialPet(String petJson, String updatedName, String updatedStatus) {
-        petService.addNewPet(PET_ID, petJson)
-                .partialUpdatePet(PET_ID, updatedName, updatedStatus)
-                .findPetById(PET_ID);
+    public void updatePartialPet(Pet newPet, long petId, String updatedName, String updatedStatus) {
+        petService.addNewPet(newPet, petId)
+                .partialUpdatePet(petId, updatedName, updatedStatus)
+                .findPetById(petId)
+                .cleanPetData(petId);
     }
 
-    @Description("Изменение данных о питомце")
+    @DisplayName("Изменение данных о питомце")
     @ParameterizedTest
     @MethodSource("petstore.TestData#updateFullPetTestData")
-    public void updateFullPet(String petJson, String updatePetJson) {
-        petService.addNewPet(PET_ID, petJson)
-                .fullUpdatePet(updatePetJson)
-                .findPetById(PET_ID);
+    public void updateFullPet(Pet newPet, Pet updatePet, long petId) {
+        petService.addNewPet(newPet, petId)
+                .fullUpdatePet(updatePet)
+                .findPetById(petId)
+                .cleanPetData(petId);
     }
 
-    @Description("Удаление питомца по id")
+    @DisplayName("Удаление питомца по id")
     @ParameterizedTest
     @MethodSource("petstore.TestData#deletePetByIdTestData")
-    public void deletePetById(String petJson) {
-        petService.addNewPet(PET_ID, petJson)
-                .deletePetById(PET_ID);
+    public void deletePetById(Pet newPet, long petId) {
+        petService
+                .addNewPet(newPet, petId)
+                .deletePetById(petId);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"available", "pending", "sold"})
     @DisplayName("Проверка поиска питомцев по статусу")
-    public void findPetsByStatus(String status) {
+    @ParameterizedTest
+    @EnumSource (PetStatus.class)
+    public void findPetsByStatus(PetStatus status) {
         petService.findPetByStatus(status);
     }
 }
