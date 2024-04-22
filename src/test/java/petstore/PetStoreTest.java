@@ -9,6 +9,8 @@ import ru.buttonone.petstore.api.PetService;
 import ru.buttonone.petstore.constans.PetStatus;
 import ru.buttonone.petstore.data.Pet;
 
+import static java.lang.String.valueOf;
+
 @Isolated
 public class PetStoreTest {
     private final PetService petService = new PetService();
@@ -64,6 +66,6 @@ public class PetStoreTest {
     @ParameterizedTest
     @EnumSource (PetStatus.class)
     public void findPetsByStatus(PetStatus status) {
-        petService.findPetByStatus(status);
+        petService.findPetByStatus(valueOf(status).toLowerCase());
     }
 }

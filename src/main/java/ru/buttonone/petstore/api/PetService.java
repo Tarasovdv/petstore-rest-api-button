@@ -67,7 +67,7 @@ public class PetService {
         }
     }
 
-    public void findPetByStatus(PetStatus status) {
+    public void findPetByStatus(String status) {
         log.info(String.format("Предоставление всех питомцев со статусом = {%s}", status));
         given()
                 .spec(REQUEST_SPEC)
