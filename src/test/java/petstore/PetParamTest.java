@@ -7,7 +7,7 @@ import ru.buttonone.petstore.api.PetService;
 import ru.buttonone.petstore.data.Pet;
 
 public class PetParamTest {
-    private PetService petService = new PetService();
+    private final PetService petService = new PetService();
 
     @DisplayName("Проверка параметров добавленного питомца")
     @ParameterizedTest
