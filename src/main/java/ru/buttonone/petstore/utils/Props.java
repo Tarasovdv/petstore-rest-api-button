@@ -9,9 +9,7 @@ import java.util.Properties;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-
 public class Props {
-
     private final static Properties PROPERTIES = new Properties();
 
     static {

@@ -157,6 +157,7 @@ public class PetService {
                 () -> assertEquals(checkPet.getStatus(), response.getStatus(),
                         "Actual PET STATUS = " + response.getStatus() +
                                 "\nExpect PET STATUS = " + checkPet.getStatus()));
+
         return this;
     }
 
