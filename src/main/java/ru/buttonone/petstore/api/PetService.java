@@ -4,7 +4,6 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.extern.slf4j.Slf4j;
-import ru.buttonone.petstore.constans.PetStatus;
 import ru.buttonone.petstore.data.Pet;
 import ru.buttonone.petstore.spec.Spec;
 
@@ -23,7 +22,7 @@ public class PetService {
     private static final ResponseSpecification RESPONSE_SPEC = Spec.responseSpec();
 
     public boolean checkPetExistById(long petId) {
-        log.info(String.format("Проверка существование питомца по ID = {%s}", petId));
+        log.info("Проверка существование питомца по ID = " + petId);
         Response response = given()
                 .spec(REQUEST_SPEC)
                 .pathParam("petId", petId)
@@ -38,7 +37,7 @@ public class PetService {
     }
 
     public PetService findPetById(long petId) {
-        log.info(String.format("Предоставление питомца по ID = {%s}", petId));
+        log.info("Предоставление питомца по ID = " + petId);
         given()
                 .spec(REQUEST_SPEC)
                 .pathParam("petId", petId)
@@ -51,7 +50,7 @@ public class PetService {
     }
 
     public void deletePetById(long petId) {
-        log.info(String.format("Удаление питомца по ID = {%s}", petId));
+        log.info("Удаление питомца по ID = " + petId);
         if (checkPetExistById(petId)) {
             given()
                     .spec(REQUEST_SPEC)
@@ -62,13 +61,13 @@ public class PetService {
                     .spec(RESPONSE_SPEC);
 
         } else {
-            log.error(String.format("Питомца НЕ существует -> ID = {%s}", petId));
+            log.error("Питомца НЕ существует -> ID = " + petId);
             throw new RuntimeException("Питомца с ID = " + petId + " НЕ существует");
         }
     }
 
     public void findPetByStatus(String status) {
-        log.info(String.format("Предоставление всех питомцев со статусом = {%s}", status));
+        log.info("Предоставление всех питомцев со статусом = " + status);
         given()
                 .spec(REQUEST_SPEC)
                 .queryParam("status", status)
@@ -79,9 +78,9 @@ public class PetService {
     }
 
     public PetService addNewPet(Pet newPet, long petId) {
-        log.info(String.format("Добавление нового питомца с ID = {%s}", petId));
+        log.info("Добавление нового питомца с ID = " + petId);
         if (checkPetExistById(petId)) {
-            log.error(String.format("Питомец уже существует -> ID = {%s}", petId));
+            log.error("Питомец уже существует -> ID = " + petId);
             throw new RuntimeException("Питомец с ID = " + petId + " уже существует");
         }
 
@@ -98,7 +97,7 @@ public class PetService {
     }
 
     public PetService partialUpdatePet(long petId, String name, String status) {
-        log.info(String.format("Изменение имени на {%s} и статуса питомца на {%s} через ID = {%s}", name, status, petId));
+        log.info("Изменение имени на {" + name + "} и статуса питомца на {" + status + "} через ID = " + petId);
         given()
                 .spec(REQUEST_SPEC)
                 .pathParam("petId", petId)
@@ -127,7 +126,7 @@ public class PetService {
     }
 
     public PetService checkPetParam(Pet checkPet, long petId) {
-        log.info(String.format("Предоставление питомца по ID = {%s}", petId));
+        log.info("Предоставление питомца по ID = " + petId);
         Pet response =
                 given()
                         .spec(REQUEST_SPEC)
@@ -162,10 +161,10 @@ public class PetService {
     }
 
     public void cleanPetData(long petId) {
-        log.info(String.format("CLEAN_PET_DATA by ID = {%s}", petId));
+        log.info("CLEAN_PET_DATA by ID = " + petId);
 
         if (checkPetExistById(petId)) {
-            log.info(String.format("PET with ID = {%s} in DB", petId));
+            log.info("PET with ID = " + petId + " in DB");
             given()
                     .spec(requestSpec())
                     .pathParam("petId", petId)
@@ -173,8 +172,8 @@ public class PetService {
                     .delete(PET_BY_ID)
                     .then()
                     .spec(responseSpec());
-            log.info(String.format("CLEAN_PET_DATA by ID = {%s} -> SUCCESS", petId));
+            log.info("CLEAN_PET_DATA by ID = " + petId + " -> SUCCESS");
         }
-        log.info(String.format("PET with ID = {%s} not found in DB", petId));
+        log.info("PET with ID = " + petId + " not found in DB");
     }
 }
