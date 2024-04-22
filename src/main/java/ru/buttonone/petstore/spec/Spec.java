@@ -5,9 +5,10 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import ru.buttonone.petstore.utils.Props;
 
 public class Spec {
-    private static final String BASE_URI = "https://petstore.swagger.io/v2";
+    private static final String BASE_URI = Props.getProperty("base-url");
 
     public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
