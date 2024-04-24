@@ -112,6 +112,7 @@ public class PetStoreTest {
                 .contentType(ContentType.JSON)
                 .assertThat()
                 .body(matchesJsonSchemaInClasspath("pet_schema.json"));
+
         petService.cleanPetData(petId);
         log.info("> FINISH");
     }
