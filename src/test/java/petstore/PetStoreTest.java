@@ -1,5 +1,6 @@
 package petstore;
 
+import io.qameta.allure.Description;
 import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -21,10 +22,11 @@ import static ru.buttonone.petstore.constans.Endpoint.PET;
 
 @Slf4j
 @Isolated
-public class PetStoreTest {
+public class PetStoreTest extends BaseTest {
     private final PetService petService = new PetService();
 
     @DisplayName("Добавление нового питомца")
+    @Description("TC-1 Отправка запроса на добавление нового питомца")
     @ParameterizedTest
     @MethodSource("petstore.TestData#addNewPetTestData")
     public void addNewPet(Pet newPet, long petId) {
@@ -35,6 +37,7 @@ public class PetStoreTest {
         log.info("> FINISH");
     }
 
+    @Description("TC-2 Отправка запроса на предоставление информации о питомце")
     @DisplayName("Предоставление питомца по id")
     @ParameterizedTest
     @MethodSource("petstore.TestData#findPetByIdTestData")
@@ -46,6 +49,7 @@ public class PetStoreTest {
         log.info("> FINISH");
     }
 
+    @Description("TC-3 Отправка запроса на частичное изменение данных о питомце")
     @DisplayName("Изменение имени и статуса питомца")
     @ParameterizedTest
     @MethodSource("petstore.TestData#updatePartialPetTestData")
@@ -58,6 +62,7 @@ public class PetStoreTest {
         log.info("> FINISH");
     }
 
+    @Description("TC-4 Отправка запроса на полное изменение данных о питомце")
     @DisplayName("Изменение данных о питомце")
     @ParameterizedTest
     @MethodSource("petstore.TestData#updateFullPetTestData")
@@ -70,6 +75,7 @@ public class PetStoreTest {
         log.info("> FINISH");
     }
 
+    @Description("TC-5 Отправка запроса на удаление питомца")
     @DisplayName("Удаление питомца по id")
     @ParameterizedTest
     @MethodSource("petstore.TestData#deletePetByIdTestData")
@@ -81,6 +87,7 @@ public class PetStoreTest {
         log.info("> FINISH");
     }
 
+    @Description("TC-6 Отправка запроса на предоставление питомцев по статусу")
     @DisplayName("Проверка поиска питомцев по статусу")
     @ParameterizedTest
     @EnumSource(PetStatus.class)
@@ -90,6 +97,7 @@ public class PetStoreTest {
         log.info("> FINISH");
     }
 
+    @Description("TC-7 Проверка структуры данных о питомце")
     @DisplayName("Проверка структуры данных о питомце")
     @ParameterizedTest
     @MethodSource("petstore.TestData#addNewPetTestData")

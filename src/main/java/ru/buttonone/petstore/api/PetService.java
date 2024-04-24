@@ -1,5 +1,6 @@
 package ru.buttonone.petstore.api;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -34,6 +35,7 @@ public class PetService {
         return response.getStatusCode() == 200;
     }
 
+    @Step("Отправка запроса на получение питомца по id = {petId}")
     public PetService findPetById(long petId) {
         log.info("Предоставление питомца по ID = " + petId);
         given()
@@ -47,6 +49,7 @@ public class PetService {
         return this;
     }
 
+    @Step("Отправка запроса на удаление питомца по id = {petId}")
     public void deletePetById(long petId) {
         log.info("Удаление питомца по ID = " + petId);
         if (checkPetExistById(petId)) {
@@ -64,6 +67,7 @@ public class PetService {
         }
     }
 
+    @Step("Отправка запроса получение питомца по статусу = {status}")
     public void findPetByStatus(String status) {
         log.info("Предоставление всех питомцев со статусом = " + status);
         given()
@@ -75,6 +79,7 @@ public class PetService {
                 .spec(RESPONSE_SPEC);
     }
 
+    @Step("Отправка запроса добавление питомца")
     public PetService addNewPet(Pet newPet, long petId) {
         log.info("Добавление нового питомца с ID = " + petId);
         if (checkPetExistById(petId)) {
@@ -94,6 +99,7 @@ public class PetService {
         return this;
     }
 
+    @Step("Отправка запроса на частичное изменение данных о питомце")
     public PetService partialUpdatePet(long petId, String name, String status) {
         log.info("Изменение имени на {" + name + "} и статуса питомца на {" + status + "} через ID = " + petId);
         given()
@@ -109,6 +115,7 @@ public class PetService {
         return this;
     }
 
+    @Step("Отправка запроса на полное изменение данных о питомце")
     public PetService fullUpdatePet(Pet updatePet) {
         log.info("Полное изменение данных о питомце");
         given()
@@ -123,6 +130,7 @@ public class PetService {
         return this;
     }
 
+    @Step("Проверка параметров питомца")
     public PetService checkPetParam(Pet checkPet, long petId) {
         log.info("Предоставление питомца по ID = " + petId);
         Pet response =
@@ -158,6 +166,7 @@ public class PetService {
         return this;
     }
 
+    @Step("Отправка запроса удаление данных питомца с id = {petId}")
     public void cleanPetData(long petId) {
         log.info("CLEAN_PET_DATA by ID = " + petId);
 
