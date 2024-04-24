@@ -12,14 +12,12 @@ import static io.restassured.http.ContentType.JSON;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.buttonone.petstore.constans.Endpoint.*;
-import static ru.buttonone.petstore.spec.Spec.requestSpec;
-import static ru.buttonone.petstore.spec.Spec.responseSpec;
 
 
 @Slf4j
 public class PetService {
-    private static final RequestSpecification REQUEST_SPEC = Spec.requestSpec();
-    private static final ResponseSpecification RESPONSE_SPEC = Spec.responseSpec();
+    public static final RequestSpecification REQUEST_SPEC = Spec.requestSpec();
+    public static final ResponseSpecification RESPONSE_SPEC = Spec.responseSpec();
 
     public boolean checkPetExistById(long petId) {
         log.info("Проверка существование питомца по ID = " + petId);
@@ -166,12 +164,12 @@ public class PetService {
         if (checkPetExistById(petId)) {
             log.info("PET with ID = " + petId + " in DB");
             given()
-                    .spec(requestSpec())
+                    .spec(REQUEST_SPEC)
                     .pathParam("petId", petId)
                     .when()
                     .delete(PET_BY_ID)
                     .then()
-                    .spec(responseSpec());
+                    .spec(RESPONSE_SPEC);
             log.info("CLEAN_PET_DATA by ID = " + petId + " -> SUCCESS");
         }
         log.info("PET with ID = " + petId + " not found in DB");
