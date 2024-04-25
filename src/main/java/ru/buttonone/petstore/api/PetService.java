@@ -1,6 +1,7 @@
 package ru.buttonone.petstore.api;
 
 import io.qameta.allure.Step;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -8,11 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import ru.buttonone.petstore.data.Pet;
 import ru.buttonone.petstore.spec.Spec;
 
+import java.io.File;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.buttonone.petstore.constans.Endpoint.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
 
 @Slf4j
@@ -182,5 +186,25 @@ public class PetService {
             log.info("CLEAN_PET_DATA by ID = " + petId + " -> SUCCESS");
         }
         log.info("PET with ID = " + petId + " not found in DB");
+    }
+
+    @Step("Проверка структуры данных о питомце id = {petId}")
+    public PetService checkJsonScheme(long petId, String filePath) {
+        log.info("Отправка запроса для Проверки структуры данных о питомце ID = " + petId);
+
+        given()
+                .spec(REQUEST_SPEC)
+                .pathParam("petId", petId)
+                .when()
+                .get(PET_BY_ID)
+                .then()
+                .spec(RESPONSE_SPEC)
+                .contentType(ContentType.JSON)
+                .assertThat()
+                .body(matchesJsonSchema(new File(filePath)));
+
+        log.info("Проверка структуры данных о питомце ID" + petId + " -> SUCCESS");
+
+        return this;
     }
 }

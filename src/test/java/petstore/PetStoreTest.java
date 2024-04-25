@@ -1,7 +1,6 @@
 package petstore;
 
 import io.qameta.allure.Description;
-import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.parallel.Isolated;
@@ -12,13 +11,7 @@ import ru.buttonone.petstore.api.PetService;
 import ru.buttonone.petstore.constans.PetStatus;
 import ru.buttonone.petstore.data.Pet;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static java.lang.String.valueOf;
-import static ru.buttonone.petstore.api.PetService.REQUEST_SPEC;
-import static ru.buttonone.petstore.api.PetService.RESPONSE_SPEC;
-import static ru.buttonone.petstore.constans.Endpoint.PET;
 
 @Slf4j
 @Isolated
@@ -31,7 +24,8 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#addNewPetTestData")
     public void addNewPet(Pet newPet, long petId) {
         log.info("> START");
-        petService.addNewPet(newPet, petId)
+        petService
+                .addNewPet(newPet, petId)
                 .findPetById(petId)
                 .cleanPetData(petId);
         log.info("> FINISH");
@@ -43,7 +37,8 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#findPetByIdTestData")
     public void findPetById(Pet newPet, long petId) {
         log.info("> START");
-        petService.addNewPet(newPet, petId)
+        petService
+                .addNewPet(newPet, petId)
                 .findPetById(petId)
                 .cleanPetData(petId);
         log.info("> FINISH");
@@ -55,7 +50,8 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#updatePartialPetTestData")
     public void updatePartialPet(Pet newPet, long petId, String updatedName, String updatedStatus) {
         log.info("> START");
-        petService.addNewPet(newPet, petId)
+        petService
+                .addNewPet(newPet, petId)
                 .partialUpdatePet(petId, updatedName, updatedStatus)
                 .findPetById(petId)
                 .cleanPetData(petId);
@@ -68,7 +64,8 @@ public class PetStoreTest extends BaseTest {
     @MethodSource("petstore.TestData#updateFullPetTestData")
     public void updateFullPet(Pet newPet, Pet updatePet, long petId) {
         log.info("> START");
-        petService.addNewPet(newPet, petId)
+        petService
+                .addNewPet(newPet, petId)
                 .fullUpdatePet(updatePet)
                 .findPetById(petId)
                 .cleanPetData(petId);
@@ -100,28 +97,14 @@ public class PetStoreTest extends BaseTest {
     @Description("TC-7 Проверка структуры данных о питомце")
     @DisplayName("Проверка структуры данных о питомце")
     @ParameterizedTest
-    @MethodSource("petstore.TestData#addNewPetTestData")
-    public void checkPetSchema(Pet newPet, long petId) {
+    @MethodSource("petstore.TestData#checkJsonSchemeTestData")
+    public void checkPetScheme(Pet newPet, long petId, String jsonSchemaPath) {
         log.info("> START");
-        log.info("Добавление нового питомца с ID = " + petId);
-        if (petService.checkPetExistById(petId)) {
-            log.error("Питомец уже существует -> ID = " + petId);
-            throw new RuntimeException("Питомец с ID = " + petId + " уже существует");
-        }
-
-        given()
-                .spec(REQUEST_SPEC)
-                .contentType(JSON)
-                .body(newPet)
-                .when()
-                .post(PET)
-                .then()
-                .spec(RESPONSE_SPEC)
-                .contentType(ContentType.JSON)
-                .assertThat()
-                .body(matchesJsonSchemaInClasspath("pet_schema.json"));
-
-        petService.cleanPetData(petId);
+        petService
+                .addNewPet(newPet, petId)
+                .findPetById(petId)
+                .checkJsonScheme(petId, jsonSchemaPath)
+                .cleanPetData(petId);
         log.info("> FINISH");
     }
 }
