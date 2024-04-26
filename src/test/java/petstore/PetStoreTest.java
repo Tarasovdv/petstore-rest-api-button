@@ -23,12 +23,10 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#addNewPetTestData")
     public void addNewPet(Pet newPet, long petId) {
-        log.info("> START");
         petService
                 .addNewPet(newPet, petId)
                 .findPetById(petId)
                 .cleanPetData(petId);
-        log.info("> FINISH");
     }
 
     @Description("TC-2 Отправка запроса на предоставление информации о питомце")
@@ -36,12 +34,10 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#findPetByIdTestData")
     public void findPetById(Pet newPet, long petId) {
-        log.info("> START");
         petService
                 .addNewPet(newPet, petId)
                 .findPetById(petId)
                 .cleanPetData(petId);
-        log.info("> FINISH");
     }
 
     @Description("TC-3 Отправка запроса на частичное изменение данных о питомце")
@@ -49,13 +45,11 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#updatePartialPetTestData")
     public void updatePartialPet(Pet newPet, long petId, String updatedName, String updatedStatus) {
-        log.info("> START");
         petService
                 .addNewPet(newPet, petId)
                 .partialUpdatePet(petId, updatedName, updatedStatus)
                 .findPetById(petId)
                 .cleanPetData(petId);
-        log.info("> FINISH");
     }
 
     @Description("TC-4 Отправка запроса на полное изменение данных о питомце")
@@ -63,13 +57,11 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#updateFullPetTestData")
     public void updateFullPet(Pet newPet, Pet updatePet, long petId) {
-        log.info("> START");
         petService
                 .addNewPet(newPet, petId)
                 .fullUpdatePet(updatePet)
                 .findPetById(petId)
                 .cleanPetData(petId);
-        log.info("> FINISH");
     }
 
     @Description("TC-5 Отправка запроса на удаление питомца")
@@ -77,11 +69,9 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#deletePetByIdTestData")
     public void deletePetById(Pet newPet, long petId) {
-        log.info("> START");
         petService
                 .addNewPet(newPet, petId)
                 .deletePetById(petId);
-        log.info("> FINISH");
     }
 
     @Description("TC-6 Отправка запроса на предоставление питомцев по статусу")
@@ -89,9 +79,7 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @EnumSource(PetStatus.class)
     public void findPetsByStatus(PetStatus status) {
-        log.info("> START");
         petService.findPetByStatus(valueOf(status).toLowerCase());
-        log.info("> FINISH");
     }
 
     @Description("TC-7 Проверка структуры данных о питомце")
@@ -99,12 +87,10 @@ public class PetStoreTest extends BaseTest {
     @ParameterizedTest
     @MethodSource("petstore.TestData#checkJsonSchemeTestData")
     public void checkPetScheme(Pet newPet, long petId, String jsonSchemaPath) {
-        log.info("> START");
         petService
                 .addNewPet(newPet, petId)
                 .findPetById(petId)
                 .checkJsonScheme(petId, jsonSchemaPath)
                 .cleanPetData(petId);
-        log.info("> FINISH");
     }
 }
