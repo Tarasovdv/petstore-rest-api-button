@@ -19,4 +19,5 @@ public class TestValue {
     public static final String UPDATE_TAG_NAME = getProperty("update-tag-name");
     public static final String PET_NAME = getProperty("pet-name");
     public static final String UPDATE_PET_NAME = getProperty("update-pet-name");
+    public static final String PET_SCHEMA_PATH = "src/test/resources/pet_schema.json";
 }

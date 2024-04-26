@@ -60,4 +60,10 @@ public class TestData {
                 PET_NAME, PHOTO_URL_LIST, tagData(TAG_ID, TAG_NAME), (valueOf(SOLD).toLowerCase()));
         return Stream.of(Arguments.of(newPet, PET_ID));
     }
+
+    public static Stream<Arguments> checkJsonSchemeTestData() {
+        Pet newPet = createPetData(PET_ID, categoryData(CATEGORY_ID, CATEGORY_NAME),
+                PET_NAME, PHOTO_URL_LIST, tagData(TAG_ID, TAG_NAME), (valueOf(SOLD).toLowerCase()));
+        return Stream.of(Arguments.of(newPet, PET_ID, PET_SCHEMA_PATH));
+    }
 }
