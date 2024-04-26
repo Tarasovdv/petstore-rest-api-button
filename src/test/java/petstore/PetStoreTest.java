@@ -1,7 +1,6 @@
 package petstore;
 
 import io.qameta.allure.Description;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.parallel.Isolated;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +12,6 @@ import ru.buttonone.petstore.data.Pet;
 
 import static java.lang.String.valueOf;
 
-@Slf4j
 @Isolated
 public class PetStoreTest extends BaseTest {
     private final PetService petService = new PetService();
